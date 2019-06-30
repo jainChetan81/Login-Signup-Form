@@ -54,12 +54,12 @@ Router.post("/login", (req, res) => {
                 res.redirect("/dashboard");
             } else {
                 errors.push("could not log in");
-                res.render("index", { errors });
+                res.redirect("/", { errors });
             }
         })
         .catch(err => {
             errors.push("user does not exist");
-            res.render("index", { errors });
+            res.redirect("/", { errors });
         });
 });
 module.exports = Router;
