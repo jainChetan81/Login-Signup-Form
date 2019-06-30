@@ -21,6 +21,11 @@ Router.post("/login", (req, res) => {
             username: req.body.username
         },
         (err, theuser) => {
+            console.log(
+                req.body.username,
+                req.body.password,
+                "---------------------------------------------"
+            );
             if (theuser) {
                 if (
                     bcrypt.compareSync(req.body.password, theuser[0].password)

@@ -30,6 +30,17 @@ app.use(
 );
 
 mongoose.connect(key.mongo);
+
+app.get("/logout", (req, res) => {
+    req.session.destroy(function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("logout ", req.user || req.session.localUser);
+        }
+    });
+});
+
 app.get("/", (req, res) => {
     res.render("index");
 });
@@ -37,10 +48,9 @@ app.get("/", (req, res) => {
 app.use("/auth/localuser", localUserRoutes);
 
 app.get("/homepage", (req, res) => {
-    if (req.user) {
-        res.send(req.user);
-    } else if (req.session.localUser) {
-        res.send(req.session.localUser);
+    if (req.user || req.session.localUser) {
+        var user = req.user || req.session.localUser;
+        res.render("homepage", { user });
     } else {
         res.redirect("/");
     }
